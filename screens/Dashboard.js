@@ -5,22 +5,25 @@ import Home from "../screens/Home";
 import Setting from "../screens/Setting";
 import Centers from "../screens/Centers";
 import Statistics from "../screens/Statistics";
-import Prediction from "../screens/Prediction";
 import History from "../screens/History";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Tab = createBottomTabNavigator();
 const Dashboard = ({ navigation }) => {
   return (
-    <Tab.Navigator screenOptions={{
-      headerShown: false
-  }}>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Tab.Screen
         name="Home"
         component={Home}
         options={{
-          tabBarLabel: ({focused, color}) => (
-            <Text style={{fontSize: 13, color: focused ? '#2386F6' : color}}>Home</Text>
+          tabBarLabel: ({ focused, color }) => (
+            <Text style={{ fontSize: 13, color: focused ? "#2386F6" : color }}>
+              Home
+            </Text>
           ),
           tabBarIcon: (tabInfo) => {
             return (
@@ -28,16 +31,20 @@ const Dashboard = ({ navigation }) => {
                 name="md-home"
                 size={24}
                 color={tabInfo.focused ? "#2386F6" : "#8e8e93"}
-                
               />
             );
           },
         }}
       />
-      <Tab.Screen name="Centers" component={Centers}  options={{
-        tabBarLabel: ({focused, color}) => (
-          <Text style={{fontSize: 13, color: focused ? '#2386F6' : color}}>Centers</Text>
-        ),
+      <Tab.Screen
+        name="Centers"
+        component={Centers}
+        options={{
+          tabBarLabel: ({ focused, color }) => (
+            <Text style={{ fontSize: 13, color: focused ? "#2386F6" : color }}>
+              Centers
+            </Text>
+          ),
           tabBarIcon: (tabInfo) => {
             return (
               <Ionicons
@@ -47,11 +54,17 @@ const Dashboard = ({ navigation }) => {
               />
             );
           },
-        }} />
-      <Tab.Screen name="Statistics" component={Statistics}  options={{
-        tabBarLabel: ({focused, color}) => (
-          <Text style={{fontSize: 13, color: focused ? '#2386F6' : color}}>Statistics</Text>
-        ),
+        }}
+      />
+      <Tab.Screen
+        name="Statistics"
+        component={Statistics}
+        options={{
+          tabBarLabel: ({ focused, color }) => (
+            <Text style={{ fontSize: 13, color: focused ? "#2386F6" : color }}>
+              Statistics
+            </Text>
+          ),
           tabBarIcon: (tabInfo) => {
             return (
               <Ionicons
@@ -61,11 +74,17 @@ const Dashboard = ({ navigation }) => {
               />
             );
           },
-        }} />
-        <Tab.Screen name="History" component={History}  options={{
-        tabBarLabel: ({focused, color}) => (
-          <Text style={{fontSize: 13, color: focused ? '#2386F6' : color}}>History</Text>
-        ),
+        }}
+      />
+      <Tab.Screen
+        name="History"
+        component={History}
+        options={{
+          tabBarLabel: ({ focused, color }) => (
+            <Text style={{ fontSize: 13, color: focused ? "#2386F6" : color }}>
+              History
+            </Text>
+          ),
           tabBarIcon: (tabInfo) => {
             return (
               <Ionicons
@@ -75,11 +94,17 @@ const Dashboard = ({ navigation }) => {
               />
             );
           },
-        }} />
-      <Tab.Screen name="Setting" component={Setting}  options={{
-        tabBarLabel: ({focused, color}) => (
-          <Text style={{fontSize: 13, color: focused ? '#2386F6' : color}}>Profile</Text>
-        ),
+        }}
+      />
+      <Tab.Screen
+        name="Setting"
+        component={Setting}
+        options={{
+          tabBarLabel: ({ focused, color }) => (
+            <Text style={{ fontSize: 13, color: focused ? "#2386F6" : color }}>
+              Profile
+            </Text>
+          ),
           tabBarIcon: (tabInfo) => {
             return (
               <Ionicons
@@ -89,7 +114,8 @@ const Dashboard = ({ navigation }) => {
               />
             );
           },
-        }} />
+        }}
+      />
     </Tab.Navigator>
   );
 };

@@ -8,6 +8,7 @@ import {
   ScrollView,
   Image,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
 import Space from "../components/Space";
 import { BlurView } from "@react-native-community/blur";
@@ -16,12 +17,16 @@ import bg from "../assets/images/bg.png";
 import illust from "../assets/images/illustcovid.jpg";
 import doc from "../assets/images/illustdoc.png";
 import Prediction from "./Prediction";
+import { useGetCovidInfoQuery } from "../store/api/dataApi";
+import Loader from "../components/Loader";
 
 const Home = ({ navigation }) => {
+  const { data, isError, isLoading } = useGetCovidInfoQuery();
   return (
     // <SafeAreaView style={styles.container}>
     // <ImageBackground source={bg} style={styles.container}>
     <ScrollView>
+      <Loader visible={isLoading} />
       <View style={styles.main}>
         <StatusBar barStyle="dark-content" />
         <Space height={160} />
@@ -77,11 +82,11 @@ const Home = ({ navigation }) => {
                   fontSize: 20,
                   color: "#ED393F",
                   fontWeight: "bold",
-                  paddingLeft: 100,
+                  paddingHorizontal: 10,
                   paddingTop: 65,
                 }}
               >
-                167829
+                {data?.cases}
               </Text>
               <Space height={10} />
             </View>
@@ -108,11 +113,11 @@ const Home = ({ navigation }) => {
                   fontSize: 20,
                   color: "#2386F6",
                   fontWeight: "bold",
-                  paddingLeft: 100,
+                  paddingHorizontal: 10,
                   paddingTop: 65,
                 }}
               >
-                167829
+                {data?.active}
               </Text>
               <Space height={10} />
             </View>
@@ -139,11 +144,11 @@ const Home = ({ navigation }) => {
                   fontSize: 20,
                   color: "#4DAA52",
                   fontWeight: "bold",
-                  paddingLeft: 100,
+                  paddingHorizontal: 10,
                   paddingTop: 65,
                 }}
               >
-                167829
+                {data?.recovered}
               </Text>
               <Space height={10} />
             </View>
@@ -170,16 +175,16 @@ const Home = ({ navigation }) => {
                   fontSize: 20,
                   color: "#767E85",
                   fontWeight: "bold",
-                  paddingLeft: 100,
+                  paddingHorizontal: 10,
                   paddingTop: 65,
                 }}
               >
-                167829
+                {data?.deaths}
               </Text>
               <Space height={10} />
             </View>
           </View>
-          <View style={{ paddingRight: 300 }}>
+          <View style={{ width: "100%", paddingHorizontal: 20 }}>
             <Text style={styles.numFont}>Prediction</Text>
           </View>
           <Space height={10} />
@@ -197,14 +202,16 @@ const Home = ({ navigation }) => {
                 Have Symptoms? {"\n"}
                 Predict Now
               </Text>
-              <View style={{ paddingTop: 10, paddingLeft: 20 }}>
+              <TouchableOpacity
+                style={{ paddingTop: 10, paddingLeft: 20 }}
+                onPress={() => navigation.navigate("Prediction")}
+              >
                 <Ionicons
                   name="arrow-forward-circle"
                   size={40}
                   color={"black"}
-                  onPress={() => navigation.navigate("Prediction")}
                 />
-              </View>
+              </TouchableOpacity>
             </View>
             <View style={{ paddingTop: 10, paddingLeft: 40 }}>
               <Image source={doc} style={{ width: 145, height: 125 }} />

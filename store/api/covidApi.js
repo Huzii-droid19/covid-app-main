@@ -14,7 +14,6 @@ export const covidApi = createApi({
         body: params,
       }),
     }),
-
     signUp: builder.mutation({
       query: (params) => ({
         url: "user/signup/",
@@ -22,7 +21,14 @@ export const covidApi = createApi({
         body: params,
       }),
     }),
+    getTestingHistory: builder.query({
+      query: (id) => `records/${id}`,
+    }),
   }),
 });
 
-export const { useSignInMutation, useSignUpMutation } = covidApi;
+export const {
+  useSignInMutation,
+  useSignUpMutation,
+  useGetTestingHistoryQuery,
+} = covidApi;

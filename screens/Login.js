@@ -12,22 +12,58 @@ import logo from "../assets/images/logonew.png";
 import Space from "../components/Space";
 import Button from "../components/Button";
 import bg from "../assets/images/bg.png";
-import { useSignInMutation } from "../store/api";
+import { useSignInMutation } from "../store/api/covidApi";
+import Loader from "../components/Loader";
+import { validateSignIn } from "../config/middlewares";
+import { addToast } from "../utils";
+import { pathOr } from "ramda";
+import { setAuthUser } from "../store/slice";
+import { useDispatch } from "react-redux";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-
+  const dispatch = useDispatch();
   const [signIn, { isLoading }] = useSignInMutation();
 
-const handleSign=async()=>{
-    if()
-}
+  const handleSign = async () => {
+    const { message, status } = validateSignIn(email, password);
+    if (!status) {
+      addToast(message, true);
+      return;
+    }
+    try {
+      const { data, error } = await signIn({
+        email,
+        password,
+      });
+      if (error) {
+        throw new Error(error);
+      }
+      dispatch(setAuthUser({ user: data?.user, isLoggedIn: true }));
+      addToast(data?.message, false);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Dashboard" }],
+      });
+    } catch (error) {
+      console.log("error", error.message.data);
+      addToast(
+        pathOr(
+          "Something went wrong while logging in",
+          ["data", "message"],
+          error
+        ),
+        true
+      );
+    }
+  };
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
+      <Loader visible={isLoading} />
       <ImageBackground source={bg} style={styles.container}>
         <View style={styles.outerbody}>
           <View style={styles.body}>
@@ -53,6 +89,7 @@ const handleSign=async()=>{
                 style={styles.inputFieldInner}
                 name={"Password"}
                 placeholder={"********"}
+                secureTextEntry
               />
             </View>
             <Space height={20} />
@@ -60,7 +97,7 @@ const handleSign=async()=>{
               buttonStyle={{ backgroundColor: "#ff7573" }}
               title={"LOGIN"}
               textStyle={{ color: "white" }}
-              onPress={() => navigation.navigate("Dashboard")}
+              onPress={handleSign}
             />
             <Space height={20} />
             <Text
@@ -71,7 +108,6 @@ const handleSign=async()=>{
                 style={{ color: "#454545" }}
                 onPress={() => navigation.navigate("Signup")}
               >
-                {" "}
                 SIGN UP
               </Text>
             </Text>

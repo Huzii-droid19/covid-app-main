@@ -4,12 +4,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import SplashNavigator from "./Navigations/SplashNavigator";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
+import Toast from "react-native-toast-message";
+
 const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
         {/* <SafeAreaView> */}
         <SplashNavigator />
+        <Toast />
         {/* </SafeAreaView> */}
       </NavigationContainer>
     </Provider>

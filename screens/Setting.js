@@ -5,53 +5,58 @@ import {
   StyleSheet,
   SafeAreaView,
   StatusBar,
+  TouchableOpacity,
 } from "react-native";
 import React from "react";
-
+import { logout, selectAuthSlice } from "../store/slice";
+import { useDispatch, useSelector } from "react-redux/";
 const Settings = ({ navigation }) => {
+  const { userMeta } = useSelector(selectAuthSlice);
+  const dispatch = useDispatch();
   return (
     <SafeAreaView style={styles.container}>
       <View>
-      <View style={styles.HBox}>
-        <Text style={styles.Htext}>Profile</Text>
-      </View>
-      <View style={styles.mainBox}>
-        <View style={styles.Box}>
-          <Text style={styles.notiftext}>Username</Text>
+        <View style={styles.HBox}>
+          <Text style={styles.Htext}>Profile</Text>
         </View>
-        <View style={styles.Box}>
-          <Text style={styles.notiftext}>Email</Text>
+        <View style={styles.mainBox}>
+          <View style={styles.Box}>
+            <Text style={styles.notiftext}>{userMeta?.name}</Text>
+          </View>
+          <View style={styles.Box}>
+            <Text style={styles.notiftext}>{userMeta?.email}</Text>
+          </View>
+          <TouchableOpacity style={styles.Box}>
+            <Text style={styles.notiftext}>Change Password</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.Box}>
-          <Text
-            style={styles.notiftext}
-            
-          >
-            Change Password
-          </Text>
-        </View>
-      </View>
       </View>
       <View>
-      <View style={styles.HBox}>
-        <Text style={styles.Htext}>Settings</Text>
-      </View>
-      <View style={styles.mainBox}>
-        <View style={styles.Box}>
-          <Text style={styles.notiftext}>About us</Text>
+        <View style={styles.HBox}>
+          <Text style={styles.Htext}>Settings</Text>
         </View>
-        <View style={styles.Box}>
-          <Text style={styles.notiftext}>Contact us</Text>
+        <View style={styles.mainBox}>
+          <View style={styles.Box}>
+            <Text style={styles.notiftext}>About us</Text>
+          </View>
+          <View style={styles.Box}>
+            <Text style={styles.notiftext}>Contact us</Text>
+          </View>
+          <TouchableOpacity style={styles.Box}>
+            <Text
+              style={styles.notiftext}
+              onPress={() => {
+                dispatch(logout());
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "Login" }],
+                });
+              }}
+            >
+              Logout
+            </Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.Box}>
-          <Text
-            style={styles.notiftext}
-            onPress={() => navigation.navigate("Login")}
-          >
-            Logout
-          </Text>
-        </View>
-      </View>
       </View>
     </SafeAreaView>
   );

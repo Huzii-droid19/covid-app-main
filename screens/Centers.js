@@ -1,41 +1,46 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  StatusBar,
-  SafeAreaView,
-  Image,
-} from "react-native";
-import Space from "../components/Space";
-import map from "../assets/images/map.png";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { View, StyleSheet, SafeAreaView, Dimensions } from "react-native";
+import MapView from "react-native-maps";
+import { addToast, _getLocationAsync } from "../utils";
+import { pathOr } from "ramda";
+import Chip from "../components/Chip";
+const { width, height } = Dimensions.get("window");
 
 const Centers = () => {
+  const [location, setLocation] = React.useState({});
+  const initialRegion = {
+    latitude: parseFloat(33.6826154),
+    longitude: parseFloat(73.0384147),
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  };
+  React.useEffect(() => {
+    _getLocationAsync()
+      .then((res) => {
+        if (res?.status)
+          setLocation({
+            latitude: parseFloat(res?.location.coords?.latitude),
+            longitude: parseFloat(res?.location?.coords?.longitude),
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          });
+      })
+      .catch((err) =>
+        addToast(pathOr("Error while fetching location", ["message"], err))
+      );
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.main}>
-        <Space height={20} />
-        <View style={styles.innerContainer}>
-          <Text style={styles.boxFont}>Vaccination Centers</Text>
-          <View style={styles.box}>
-            <View style={styles.inner}>
-              <Image
-                source={map}
-                style={{ width: "100%", height: "100%", borderRadius: 20}}
-              ></Image>
-            </View>
-          </View>
-          <Text style={styles.boxFont}>Testing Centers</Text>
-          <View style={styles.box}>
-            <View style={styles.inner}>
-              <Image
-                source={map}
-                style={{ width: "100%", height: "100%", borderRadius: 20 }}
-              ></Image>
-            </View>
-          </View>
-        </View>
+      <MapView
+        style={styles.map}
+        showsUserLocation
+        loadingEnabled
+        // initialRegion={initialRegion}
+      ></MapView>
+      <View style={styles.chipWrapper}>
+        <Chip label="Testing" onPress={() => {}} />
+        <Chip label="Vaccination" onPress={() => {}} />
       </View>
     </SafeAreaView>
   );
@@ -47,46 +52,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ffffff",
   },
-  main: {
-    flex: 2,
-    backgroundColor: "#Ffffff",
-  },
-  Text: {
-    fontSize: 25,
-    color: "#fff",
-  },
-  Texts: {
-    fontSize: 25,
-    color: "#fff",
-  },
-  innerContainer: {
-    width: "100%",
-    height: "90%",
+  chipWrapper: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    // paddingLeft: 35,
-    justifyContent: "center",
+    marginHorizontal: 60,
+    position: "absolute",
+    top: 45,
+    left: 0,
+    right: 0,
   },
-  box: {
-    width: "90%",
-    height: "50%",
-    padding: 10,
-  },
-  inner: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    // padding: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    borderWidth: 2,
-    borderColor: "#2386F6",
-    backgroundColor: "#ffffff",
-  },
-  boxFont: {
-    fontSize: 18,
-    color: "#062a5c",
-    fontWeight: "bold",
-    paddingLeft: 10,
+  map: {
+    width: width,
+    height: height,
+    ...StyleSheet.absoluteFillObject,
   },
 });

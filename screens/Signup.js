@@ -3,18 +3,26 @@ import { View, TextInput, StyleSheet, Image, Text } from "react-native";
 import logo from "../assets/images/logo.png";
 import Space from "../components/Space";
 import Button from "../components/Button";
-import { useSignUpMutation } from "../store/api";
+import { useSignUpMutation } from "../store/api/covidApi";
+import Loader from "../components/Loader";
+import { addToast } from "../utils";
+import { pathOr } from "ramda";
+import { validateSignUp } from "../config/middlewares";
+import { setAuthUser } from "../store/slice";
+import { useDispatch } from "react-redux";
 
 const Signup = ({ navigation }) => {
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const dispatch = useDispatch();
 
   const [signUp, { isLoading }] = useSignUpMutation();
 
   const handleSignUp = async () => {
-    if (!name.length > 0 || !email.length > 0 || !password.length > 0) {
-      alert("Please input valid data");
+    const { message, status } = validateSignUp(name, email, password);
+    if (!status) {
+      addToast(message, true);
       return;
     }
     try {
@@ -27,22 +35,28 @@ const Signup = ({ navigation }) => {
         console.log(error);
         throw new Error(error);
       }
-      navigation.navigate("Dashboard");
+      dispatch(setAuthUser({ user: data?.user, isLoggedIn: true }));
+      addToast(data?.message, false);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Dashboard" }],
+      });
     } catch (error) {
-      alert("Sign Up Failed");
+      addToast(
+        pathOr(
+          "Something went wrong while loggin in",
+          ["data", "message"],
+          error
+        ),
+        true
+      );
     }
   };
   return (
     <View style={styles.container}>
+      <Loader visible={isLoading} />
       <Image source={logo} style={{ width: "30%", height: "15%" }}></Image>
       <Space height={50} />
-      {/* <View style={styles.inputFieldOuter}>
-        <TextInput
-                    style={styles.inputFieldInner}
-                    name={'First_Name'}
-                    placeholder={'First Name'}
-                />
-      </View> */}
 
       <Space height={10} />
       <View style={styles.inputFieldOuter}>
