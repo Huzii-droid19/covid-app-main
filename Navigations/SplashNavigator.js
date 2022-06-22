@@ -5,10 +5,10 @@ import Signup from "../screens/Signup";
 import Dashboard from "../screens/Dashboard";
 import Splash from "../screens/Splash";
 import Prediction from "../screens/Prediction";
-import xRayPrediction from "../screens/x-rayPrediction";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HRCTPrediction from "../screens/hrctPrediction";
 import SymptomsAnalysis from "../screens/SymptomsAnalysis";
+import HRCT from "../screens/HRCT";
+import XRAY from "../screens/XRAY";
 
 const Stack = createNativeStackNavigator();
 
@@ -36,8 +36,8 @@ const SplashNavigator = () => {
         component={Dashboard}
       />
       <Stack.Screen name="Prediction" component={Prediction} />
-      <Stack.Screen name="HRCTPrediction" component={HRCTPrediction} />
-      <Stack.Screen name="xRayPrediction" component={xRayPrediction} />
+      <Stack.Screen name="HRCTPrediction" component={HRCT} />
+      <Stack.Screen name="xRayPrediction" component={XRAY} />
       <Stack.Screen name="SymptomsAnalysis" component={SymptomsAnalysis} />
     </Stack.Navigator>
   );

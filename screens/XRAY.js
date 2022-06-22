@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import SelectImage from "../components/SelectImage";
 
-const HRCT = () => {
+const XRAY = () => {
   const [image, setImage] = useState({});
   return (
     <View style={styles.container}>
@@ -12,7 +12,7 @@ const HRCT = () => {
   );
 };
 
-export default HRCT;
+export default XRAY;
 
 const styles = StyleSheet.create({
   container: {

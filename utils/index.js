@@ -1,5 +1,6 @@
 import Toast from "react-native-toast-message";
 import * as Location from "expo-location";
+import * as ImagePicker from "expo-image-picker";
 
 export const addToast = (message, isError) => {
   Toast.show({
@@ -30,5 +31,20 @@ export const _getLocationAsync = async () => {
       status: true,
       location: location,
     };
+  }
+};
+
+export const pickImage = async () => {
+  let result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    allowsEditing: false,
+    aspect: [4, 3],
+    quality: 0.5,
+    base64: true,
+    maxHeight: 50,
+    maxWidth: 50,
+  });
+  if (!result.cancelled) {
+    return result;
   }
 };
