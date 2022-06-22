@@ -3,15 +3,11 @@ import {
   View,
   Text,
   StyleSheet,
-  StatusBar,
   SafeAreaView,
-  Image,
-  ImageBackground,
   TouchableOpacity,
 } from "react-native";
 import Space from "../components/Space";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import bg from "../assets/images/bg.png";
 
 const Prediction = ({ navigation }) => {
   return (
@@ -70,7 +66,10 @@ const Prediction = ({ navigation }) => {
           </View>
         </TouchableOpacity>
         <Space height={20} />
-        <View style={styles.SContainer}>
+        <TouchableOpacity
+          style={styles.SContainer}
+          onPress={() => navigation.navigate("SymptomsAnalysis")}
+        >
           <View
             style={{ flexDirection: "row", paddingTop: 20, paddingLeft: 20 }}
           >
@@ -88,7 +87,7 @@ const Prediction = ({ navigation }) => {
               <Ionicons name="radio" size={70} color={"#ff9b66"} />
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

@@ -8,6 +8,7 @@ import Prediction from "../screens/Prediction";
 import xRayPrediction from "../screens/x-rayPrediction";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HRCTPrediction from "../screens/hrctPrediction";
+import SymptomsAnalysis from "../screens/SymptomsAnalysis";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +38,7 @@ const SplashNavigator = () => {
       <Stack.Screen name="Prediction" component={Prediction} />
       <Stack.Screen name="HRCTPrediction" component={HRCTPrediction} />
       <Stack.Screen name="xRayPrediction" component={xRayPrediction} />
+      <Stack.Screen name="SymptomsAnalysis" component={SymptomsAnalysis} />
     </Stack.Navigator>
   );
 };
